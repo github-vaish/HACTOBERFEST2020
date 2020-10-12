@@ -1,0 +1,113 @@
+#include<iostream>
+#include<unistd.h>
+using namespace std;
+template<class T>
+class Node{
+  public:
+  T data;
+  Node<T>* next;
+};
+template <class T>
+class c_queue{
+  public:
+  Node<T> *front=NULL;
+  Node<T> *end=NULL;
+  void enque(T val)
+  {
+    Node<T> *temp=new Node<T>();
+    temp->data=val;
+    if(front==NULL)
+    {
+      front=end=temp;
+      temp->next=front;
+    }
+    else
+    {
+      temp->next=front;
+      end->next=temp;
+      end=temp;
+      
+    }
+      cout<<val<<" is enqued"<<endl;
+    
+  }
+  void deque()
+  {
+    if(front==NULL)
+    {
+      cout<<"Element can't be dequed,sice queue is empty";
+    }
+      
+    else if(front==end)
+    {
+        cout<<front->data<<" is dequed"<<endl;;
+      free (front);
+      front=end=NULL;
+    }
+    else
+    {
+        cout<<front->data<<" is dequed"<<endl;;
+      Node<T>*temp=front;
+      end->next=front->next;
+      front=front->next;
+      free(temp);
+    }
+  }
+  T getFront()
+  {
+    return front->data;
+  }
+  void print()
+  {
+    if(front==NULL) { cout<<"Queue is empty";}
+    else{
+      Node<T> *temp=front;
+      do{
+        cout<<temp->data<<"->";
+        temp=temp->next;
+      }
+      while(temp->next!=front->next);
+    }
+  }
+};
+
+
+int main()
+{
+   c_queue<string> q;
+   q.enque("blue");
+   q.enque("Red");
+   q.enque("Yellow");
+   q.enque("Green");
+   
+   q.deque();
+    cout<<"_____________________\n\nThe queue is:\n";
+   q.print();
+   cout<<"\n\n_______________________\nTraffic signal system\n_______________________\n\n";
+   Node<string> *temp=q.front;
+   while(1)
+   {
+     if(temp->data=="Red")
+       {
+         
+         cout<<temp->data<<endl;
+         sleep(5);
+       }
+     if(temp->data=="Yellow") 
+         {
+          
+          cout<<temp->data<<endl;
+          sleep(2);
+         }
+     if(temp->data=="Green") 
+        {
+         
+         cout<<temp->data<<"\n\n";
+         sleep(4);
+        }
+     temp=temp->next;
+   }
+   
+  getchar();
+  return 0;
+}
